@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { AVATARS } from "../../utils/constants";
+import { AVATARS, API_BASE_URL } from "../../utils/constants";
 import { Clock, StopCircle, UserX } from "lucide-react";
 
 export default function VotingPhase({ roomData, session, handleEndGame }) {
@@ -43,7 +43,7 @@ export default function VotingPhase({ roomData, session, handleEndGame }) {
   const submitVote = async (targetId) => {
     if (hasVoted) return;
     try {
-        const response = await fetch("http://localhost:5000/api/rooms/submit-vote", {
+        const response = await fetch(`${API_BASE_URL}/api/rooms/submit-vote`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ roomId: meta.roomId, playerId: session.playerId, targetId })

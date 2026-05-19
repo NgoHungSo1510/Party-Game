@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import { API_BASE_URL } from "../utils/constants";
 
 // MOCK DATA cho Avatar
 const AVATARS = [
@@ -49,7 +50,7 @@ export default function Home() {
     try {
       const playerId = "host_" + Date.now();
       
-      const response = await fetch("http://localhost:5000/api/rooms/create", {
+      const response = await fetch(`${API_BASE_URL}/api/rooms/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ hostPlayerId: playerId, username, avatarId: selectedAvatar })
@@ -92,7 +93,7 @@ export default function Home() {
       }
       if (!playerId) playerId = "player_" + Date.now();
       
-      const response = await fetch("http://localhost:5000/api/rooms/join", {
+      const response = await fetch(`${API_BASE_URL}/api/rooms/join`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ roomId: roomId.trim(), playerId, username, avatarId: selectedAvatar })

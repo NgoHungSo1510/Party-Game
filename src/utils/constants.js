@@ -8,3 +8,5 @@ export const AVATARS = {
   "avatar_7": { name: "Khỉ Tím", color: "#9B59B6", emoji: "🐒" },
   "avatar_8": { name: "Ếch Xanh", color: "#2ECC71", emoji: "🐸" }
 };
+
+export const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { ref, onValue, get } from "firebase/database";
+import { API_BASE_URL } from "../utils/constants";
 import RoomHeader from "../components/room/RoomHeader";
 import WaitingPhase from "../components/room/WaitingPhase";
 import PlayingPhase from "../components/room/PlayingPhase";
@@ -105,7 +106,7 @@ export default function Room() {
       if (!sess) return;
       // Dùng sendBeacon để gửi request ngay cả khi tab đang đóng
       navigator.sendBeacon(
-        "http://localhost:5000/api/rooms/leave",
+        `${API_BASE_URL}/api/rooms/leave`,
         new Blob([JSON.stringify({ roomId: sess.currentRoomId, playerId: sess.playerId })], { type: "application/json" })
       );
     };
@@ -115,7 +116,7 @@ export default function Room() {
 
   const handleLeave = async () => {
     try {
-      await fetch("http://localhost:5000/api/rooms/leave", {
+      await fetch(`${API_BASE_URL}/api/rooms/leave`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ roomId, playerId: session?.playerId })
@@ -136,7 +137,7 @@ export default function Room() {
   const handleToggleReady = async () => {
     try {
       const isReady = !roomData.players[session.playerId]?.isReady;
-      const response = await fetch("http://localhost:5000/api/rooms/ready", {
+      const response = await fetch(`${API_BASE_URL}/api/rooms/ready`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ roomId, playerId: session.playerId, isReady })
@@ -152,7 +153,7 @@ export default function Room() {
 
   const handleSaveSettings = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/rooms/settings", {
+        const response = await fetch(`${API_BASE_URL}/api/rooms/settings`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ roomId, playerId: session.playerId, settings: localSettings })
@@ -167,7 +168,7 @@ export default function Room() {
 
   const handleSaveTopics = async () => {
       try {
-          const response = await fetch("http://localhost:5000/api/rooms/submit-topics", {
+          const response = await fetch(`${API_BASE_URL}/api/rooms/submit-topics`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ roomId, playerId: session.playerId, topics: selectedTopics })
@@ -192,7 +193,7 @@ export default function Room() {
 
   const handleStartGame = async () => {
       try {
-          const response = await fetch("http://localhost:5000/api/rooms/start-game", {
+          const response = await fetch(`${API_BASE_URL}/api/rooms/start-game`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ roomId, playerId: session.playerId })
@@ -206,7 +207,7 @@ export default function Room() {
 
   const handleNextTurn = async () => {
       try {
-          const response = await fetch("http://localhost:5000/api/rooms/next-turn", {
+          const response = await fetch(`${API_BASE_URL}/api/rooms/next-turn`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ roomId, playerId: session.playerId })
@@ -220,7 +221,7 @@ export default function Room() {
 
   const handleEndGame = async () => {
       try {
-          const response = await fetch("http://localhost:5000/api/rooms/end-game", {
+          const response = await fetch(`${API_BASE_URL}/api/rooms/end-game`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ roomId, playerId: session.playerId })
@@ -233,7 +234,7 @@ export default function Room() {
 
   const handleKick = async (targetId) => {
       try {
-          const response = await fetch("http://localhost:5000/api/rooms/kick", {
+          const response = await fetch(`${API_BASE_URL}/api/rooms/kick`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ roomId, playerId: session.playerId, targetId })
@@ -246,7 +247,7 @@ export default function Room() {
 
   const handleNextRound = async () => {
       try {
-          const response = await fetch("http://localhost:5000/api/rooms/next-round", {
+          const response = await fetch(`${API_BASE_URL}/api/rooms/next-round`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ roomId, playerId: session.playerId })
