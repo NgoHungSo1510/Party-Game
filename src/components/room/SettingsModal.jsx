@@ -17,6 +17,19 @@ export default function SettingsModal({
     boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
   };
 
+  const ticketConfig = localSettings.ticketConfig || {
+    enabled: false,
+    startTurn: 3,
+    randomChancePercent: 20
+  };
+
+  const updateTicketConfig = (key, value) => {
+    setLocalSettings({
+      ...localSettings,
+      ticketConfig: { ...ticketConfig, [key]: value }
+    });
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -52,6 +65,30 @@ export default function SettingsModal({
             style={{ transform: "scale(1.5)" }} 
           />
         </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 15, padding: "10px 0", borderTop: "1px solid #EEE" }}>
+          <label style={{ fontWeight: "bold" }}>Bật Thẻ Bài (Tickets)</label>
+          <input 
+            type="checkbox" 
+            checked={ticketConfig.enabled} 
+            onChange={(e) => updateTicketConfig("enabled", e.target.checked)} 
+            style={{ transform: "scale(1.5)" }} 
+          />
+        </div>
+
+        {ticketConfig.enabled && (
+          <div style={{ backgroundColor: "#F9F9F9", padding: 15, borderRadius: 12, marginBottom: 20 }}>
+            <div style={{ marginBottom: 0 }}>
+              <label style={{ display: "block", marginBottom: 5, fontSize: 14 }}>Tỷ lệ xuất hiện: {ticketConfig.randomChancePercent}% mỗi lượt</label>
+              <input 
+                type="range" min="10" max="100" step="10"
+                value={ticketConfig.randomChancePercent} 
+                onChange={(e) => updateTicketConfig("randomChancePercent", parseInt(e.target.value))} 
+                style={{ width: "100%" }} 
+              />
+            </div>
+          </div>
+        )}
 
         <button className="btn btn-primary" onClick={handleSaveSettings}>LƯU CÀI ĐẶT</button>
       </motion.div>

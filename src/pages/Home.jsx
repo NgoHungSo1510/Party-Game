@@ -1,19 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { API_BASE_URL } from "../utils/constants";
+import { API_BASE_URL, AVATARS as AVATARS_OBJ } from "../utils/constants";
 
-// MOCK DATA cho Avatar
-const AVATARS = [
-  { id: "avatar_1", name: "Mèo Xanh", color: "#4ECDC4", emoji: "🐱" },
-  { id: "avatar_2", name: "Cún Cam", color: "#FFB347", emoji: "🐶" },
-  { id: "avatar_3", name: "Thỏ Hồng", color: "#FF6B6B", emoji: "🐰" },
-  { id: "avatar_4", name: "Gấu Nâu", color: "#A87A51", emoji: "🐻" },
-  { id: "avatar_5", name: "Cáo Đỏ", color: "#FF4500", emoji: "🦊" },
-  { id: "avatar_6", name: "Hổ Vàng", color: "#FFD700", emoji: "🐯" },
-  { id: "avatar_7", name: "Khỉ Tím", color: "#9B59B6", emoji: "🐒" },
-  { id: "avatar_8", name: "Ếch Xanh", color: "#2ECC71", emoji: "🐸" }
-];
+const AVATARS = Object.entries(AVATARS_OBJ).map(([id, data]) => ({
+  id,
+  ...data
+}));
 
 export default function Home() {
   const { roomId: initialRoomId } = useParams();
@@ -137,35 +130,55 @@ export default function Home() {
         <div>
           <p style={{ fontWeight: "bold", marginBottom: 10, textAlign: "center", color: "var(--text-main)" }}>CHỌN AVATAR</p>
           <div style={{ 
-            display: "grid", 
-            gridTemplateColumns: "repeat(4, 1fr)", 
-            gap: 12, 
-            padding: "15px",
+            position: "relative",
             backgroundColor: "white",
             borderRadius: "var(--radius)",
-            boxShadow: "var(--shadow)"
+            boxShadow: "var(--shadow)",
+            padding: "15px",
+            overflow: "hidden"
           }}>
-            {AVATARS.map(avatar => (
-              <motion.div
-                key={avatar.id}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setSelectedAvatar(avatar.id)}
-                style={{
-                  aspectRatio: "1",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 28,
-                  cursor: "pointer",
-                  border: selectedAvatar === avatar.id ? `4px solid ${avatar.color}` : "2px solid #EAEAEA",
-                  backgroundColor: selectedAvatar === avatar.id ? avatar.color + "20" : "transparent",
-                  transition: "all 0.2s"
-                }}
-              >
-                {avatar.emoji}
-              </motion.div>
-            ))}
+            <div style={{ 
+              display: "grid", 
+              gridTemplateColumns: "repeat(4, 1fr)", 
+              gap: 12, 
+              maxHeight: "175px",
+              overflowY: "auto",
+              paddingRight: "4px",
+              paddingBottom: "25px"
+            }}>
+              {AVATARS.map(avatar => (
+                <motion.div
+                  key={avatar.id}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setSelectedAvatar(avatar.id)}
+                  style={{
+                    aspectRatio: "1",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 28,
+                    cursor: "pointer",
+                    border: selectedAvatar === avatar.id ? `4px solid ${avatar.color}` : "2px solid #EAEAEA",
+                    backgroundColor: selectedAvatar === avatar.id ? avatar.color + "20" : "transparent",
+                    transition: "all 0.2s"
+                  }}
+                >
+                  {avatar.emoji}
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Fade effect at the bottom to show there's more */}
+            <div style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "45px",
+              background: "linear-gradient(to top, rgba(255,255,255,1) 20%, rgba(255,255,255,0))",
+              pointerEvents: "none"
+            }} />
           </div>
         </div>
 

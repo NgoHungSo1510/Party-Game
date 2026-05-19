@@ -33,7 +33,7 @@ export default function TopicsModal({
           <button onClick={() => setShowTopics(false)} style={{ background: "none", border: "none", cursor: "pointer" }}><X size={24} /></button>
         </div>
         
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12, marginBottom: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 20 }}>
           {topics.map(topic => {
               const isSelected = selectedTopics.includes(topic.id);
               const isDisabled = !isSelected && selectedTopics.length >= 2;
@@ -42,15 +42,24 @@ export default function TopicsModal({
                       key={topic.id} 
                       onClick={() => !isDisabled && toggleTopicSelection(topic.id)}
                       style={{ 
-                          display: "flex", alignItems: "center", gap: 12, padding: 12, 
+                          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px 6px", 
                           borderRadius: 16, border: `2px solid ${isSelected ? "var(--primary)" : "#EAEAEA"}`,
                           backgroundColor: isSelected ? "var(--primary)10" : "white",
-                          opacity: isDisabled ? 0.5 : 1, cursor: isDisabled ? "not-allowed" : "pointer"
+                          opacity: isDisabled ? 0.5 : 1, cursor: isDisabled ? "not-allowed" : "pointer",
+                          position: "relative",
+                          textAlign: "center",
+                          minHeight: "85px"
                       }}
                   >
-                      <span style={{ fontSize: 24 }}>{topic.imageUrl}</span>
-                      <span style={{ fontWeight: "bold", flex: 1 }}>{topic.name}</span>
-                      {isSelected && <CheckCircle size={20} color="var(--primary)" />}
+                      <span style={{ fontSize: 26 }}>{topic.imageUrl}</span>
+                      <span style={{ fontWeight: "bold", fontSize: 12, lineHeight: 1.2, color: "var(--text-main)", overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+                        {topic.name}
+                      </span>
+                      {isSelected && (
+                        <div style={{ position: "absolute", top: 4, right: 4, backgroundColor: "white", borderRadius: "50%", display: "flex" }}>
+                          <CheckCircle size={16} color="var(--primary)" />
+                        </div>
+                      )}
                   </div>
               );
           })}
