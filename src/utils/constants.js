@@ -21,4 +21,4 @@ export const AVATARS = {
   "avatar_20": { name: "Phượng Hoàng Lửa", color: "#FF7F50", emoji: "🔥" }
 };
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+export const API_BASE_URL = import.meta.env.VITE_API_URL || "https://spy-finder-backend.onrender.com";

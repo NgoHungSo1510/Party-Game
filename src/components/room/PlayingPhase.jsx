@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ShieldAlert, Clock, StopCircle, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { AVATARS } from "../../utils/constants";
@@ -9,7 +9,7 @@ export default function PlayingPhase({ roomData, session, handleNextTurn, handle
   
   // Ticket States
   const [ticketState, setTicketState] = useState("hidden");
-  const [animatedTicketId, setAnimatedTicketId] = useState(null);
+  const animatedTicketIdRef = useRef(null);
   
   const { players, gameState, settings } = roomData;
   const turnPlayerId = gameState?.currentTurnPlayerId;
@@ -44,8 +44,8 @@ export default function PlayingPhase({ roomData, session, handleNextTurn, handle
   useEffect(() => {
     const activeTicket = gameState?.activeTicket;
     if (activeTicket && activeTicket.drawnAt) {
-      if (activeTicket.drawnAt !== animatedTicketId) {
-        setAnimatedTicketId(activeTicket.drawnAt);
+      if (activeTicket.drawnAt !== animatedTicketIdRef.current) {
+        animatedTicketIdRef.current = activeTicket.drawnAt;
         setTicketState("animating");
         const timer = setTimeout(() => {
           setTicketState("minimized");
@@ -54,8 +54,9 @@ export default function PlayingPhase({ roomData, session, handleNextTurn, handle
       }
     } else {
       setTicketState("hidden");
+      animatedTicketIdRef.current = null;
     }
-  }, [gameState?.activeTicket, animatedTicketId]);
+  }, [gameState?.activeTicket]);
   
   const progress = Math.max(0, timeLeft / turnTimerSeconds);
   const radius = 56;
@@ -210,7 +211,7 @@ export default function PlayingPhase({ roomData, session, handleNextTurn, handle
     {(ticketState === "animating" || ticketState === "expanded") && gameState?.activeTicket && (
       <div 
         style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.6)" }} 
-        onClick={() => ticketState === "expanded" && setTicketState("minimized")}
+        onClick={() => setTicketState("minimized")}
       >
         <motion.div 
           initial={{ scale: 0.5, opacity: 0, rotate: -5 }} 
@@ -246,7 +247,7 @@ export default function PlayingPhase({ roomData, session, handleNextTurn, handle
           
           {ticketState === "animating" && (
               <div style={{ marginTop: 20, fontSize: 14, color: "#888", fontStyle: "italic" }}>
-                  Đang thu nhỏ...
+                  Nhấn ra ngoài thẻ để thu gọn
               </div>
           )}
         </motion.div>
