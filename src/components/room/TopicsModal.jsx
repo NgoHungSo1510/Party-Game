@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export default function TopicsModal({ 
   topics, selectedTopics, 
-  toggleTopicSelection, handleSaveTopics, setShowTopics 
+  toggleTopicSelection, setShowTopics 
 }) {
   const chatBubbleStyle = {
     position: "relative",
@@ -64,8 +64,6 @@ export default function TopicsModal({
               );
           })}
         </div>
-
-        <button className="btn btn-secondary" onClick={handleSaveTopics}>LƯU CHỦ ĐỀ</button>
       </motion.div>
     </motion.div>
   );

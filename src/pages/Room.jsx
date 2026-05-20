@@ -166,15 +166,14 @@ export default function Room() {
       }
   };
 
-  const handleSaveTopics = async () => {
+  const handleSaveTopics = async (topicsToSave) => {
       try {
           const response = await fetch(`${API_BASE_URL}/api/rooms/submit-topics`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ roomId, playerId: session.playerId, topics: selectedTopics })
+            body: JSON.stringify({ roomId, playerId: session.playerId, topics: topicsToSave })
           });
           if (!response.ok) alert(`Lỗi API: ${response.status}`);
-          setShowTopics(false);
       } catch(e) {
           console.error(e);
           alert("Lỗi kết nối Backend!");
@@ -182,13 +181,16 @@ export default function Room() {
   };
 
   const toggleTopicSelection = (topicId) => {
-      if (selectedTopics.includes(topicId)) {
-          setSelectedTopics(selectedTopics.filter(id => id !== topicId));
+      let newTopics = [...selectedTopics];
+      if (newTopics.includes(topicId)) {
+          newTopics = newTopics.filter(id => id !== topicId);
       } else {
-          if (selectedTopics.length < 2) {
-              setSelectedTopics([...selectedTopics, topicId]);
+          if (newTopics.length < 2) {
+              newTopics.push(topicId);
           }
       }
+      setSelectedTopics(newTopics);
+      handleSaveTopics(newTopics);
   };
 
   const handleStartGame = async () => {
@@ -355,7 +357,6 @@ export default function Room() {
           topics={topics}
           selectedTopics={selectedTopics}
           toggleTopicSelection={toggleTopicSelection}
-          handleSaveTopics={handleSaveTopics}
           setShowTopics={setShowTopics}
         />
       )}
