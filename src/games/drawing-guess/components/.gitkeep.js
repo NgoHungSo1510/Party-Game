@@ -1,0 +1,3 @@
+/**
+ * Drawing Guess — Components (placeholder)
+ */

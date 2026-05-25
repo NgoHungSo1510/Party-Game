@@ -1,0 +1,334 @@
+/* WEREWOLF GAME THEME & STYLES */
+
+.werewolf-theme {
+  --ww-bg: linear-gradient(135deg, #090812 0%, #120e24 50%, #1e1330 100%);
+  --ww-dark-panel: rgba(13, 11, 26, 0.75);
+  --ww-glass: rgba(28, 22, 48, 0.45);
+  --ww-glass-border: rgba(108, 92, 231, 0.25);
+  --ww-glow-color: rgba(108, 92, 231, 0.4);
+  
+  /* Role & Team colors */
+  --ww-primary: #8e44ad; /* Mysterious purple */
+  --ww-wolf: #e74c3c; /* Blood red */
+  --ww-villager: #3498db; /* Clear sky blue */
+  --ww-seer: #9b59b6; /* Purple amethyst */
+  --ww-guard: #2ecc71; /* Shield green */
+  --ww-witch: #1abc9c; /* Poison teal */
+  --ww-accent: #f1c40f; /* Mayor gold */
+  
+  --ww-text: #f5f6fa;
+  --ww-text-muted: #a4b0be;
+
+  background: var(--ww-bg);
+  color: var(--ww-text);
+  min-height: 100vh;
+  padding: 16px;
+  font-family: 'Quicksand', 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Glass Panels */
+.ww-card {
+  background: var(--ww-glass);
+  border: 1px solid var(--ww-glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.ww-card:hover {
+  border-color: rgba(108, 92, 231, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(108, 92, 231, 0.1);
+}
+
+/* Glowing text */
+.ww-glow-text {
+  text-shadow: 0 0 10px rgba(108, 92, 231, 0.6);
+  color: #fff;
+}
+
+.ww-glow-text-red {
+  text-shadow: 0 0 10px rgba(231, 76, 60, 0.8);
+  color: #fff;
+}
+
+.ww-glow-text-gold {
+  text-shadow: 0 0 10px rgba(241, 196, 15, 0.8);
+  color: #ffd700;
+}
+
+/* Custom Buttons */
+.ww-btn {
+  background: linear-gradient(135deg, #6c5ce7 0%, #8e44ad 100%);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.ww-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.6);
+}
+
+.ww-btn:active {
+  transform: translateY(1px);
+}
+
+.ww-btn:disabled {
+  background: #342e47;
+  color: #635f75;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.ww-btn-wolf {
+  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+}
+
+.ww-btn-wolf:hover {
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+}
+
+.ww-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+}
+
+.ww-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+}
+
+/* Avatar Grid & Choices */
+.ww-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ww-choice-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.ww-choice-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ww-choice-card.selected {
+  background: rgba(108, 92, 231, 0.15);
+  border-color: #6c5ce7;
+  box-shadow: 0 0 10px rgba(108, 92, 231, 0.3);
+}
+
+.ww-choice-card.selected-wolf {
+  background: rgba(231, 76, 60, 0.15);
+  border-color: #e74c3c;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+}
+
+.ww-choice-card.dead {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.3);
+  border-color: transparent;
+}
+
+.ww-choice-card.dead:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: transparent;
+}
+
+/* Emoji / Avatar styling */
+.ww-avatar-emoji {
+  font-size: 32px;
+  margin-bottom: 6px;
+  transition: all 0.3s;
+}
+
+.ww-choice-card:hover .ww-avatar-emoji {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Badges */
+.ww-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-top: 4px;
+}
+
+.ww-badge-mayor {
+  background: #f1c40f;
+  color: #000;
+  box-shadow: 0 0 5px rgba(241, 196, 15, 0.6);
+}
+
+.ww-badge-wolf {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.ww-badge-dead {
+  background: #7f8c8d;
+  color: #fff;
+}
+
+/* Pulse Animation for wakeups */
+@keyframes ww-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(108, 92, 231, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+  }
+}
+
+.ww-pulse-animation {
+  animation: ww-pulse 2s infinite;
+}
+
+/* Fullscreen overlays for night transition */
+.ww-blackout {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  background: #050409;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 30px;
+  text-align: center;
+}
+
+/* Role Card flip style */
+.ww-role-card {
+  width: 250px;
+  height: 380px;
+  perspective: 1000px;
+  margin: 20px auto;
+}
+
+.ww-role-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.ww-role-card.revealed .ww-role-card-inner {
+  transform: rotateY(180deg);
+}
+
+.ww-role-card-front, .ww-role-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 24px;
+  border: 3px solid rgba(108, 92, 231, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.ww-role-card-front {
+  background: linear-gradient(135deg, #2c254e 0%, #150f2e 100%);
+  color: white;
+}
+
+.ww-role-card-back {
+  background: linear-gradient(135deg, #1c142c 0%, #0d091a 100%);
+  color: white;
+  transform: rotateY(180deg);
+}
+
+/* Chat overlay in wolf chat */
+.ww-chat-area {
+  height: 180px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 12px;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ww-chat-bubble {
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.ww-chat-bubble.mine {
+  align-self: flex-end;
+  background: #6c5ce7;
+  color: #fff;
+  border-bottom-right-radius: 2px;
+}
+
+.ww-chat-bubble.others {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.1);
+  color: #eee;
+  border-bottom-left-radius: 2px;
+}
+
+.ww-chat-sender {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ww-text-muted);
+  margin-bottom: 2px;
+}

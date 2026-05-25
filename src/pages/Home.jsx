@@ -55,7 +55,7 @@ export default function Home() {
         const session = { currentRoomId: data.roomId, playerId, username, avatarId: selectedAvatar };
         localStorage.setItem("spyfinder_session", JSON.stringify(session));
         localStorage.setItem("spyfinder_profile", JSON.stringify({ username, avatarId: selectedAvatar }));
-        navigate(`/room/${data.roomId}`);
+        navigate(`/lobby/${data.roomId}`);
       } else {
         alert("Lỗi khi tạo phòng: " + data.error);
       }
@@ -98,7 +98,7 @@ export default function Home() {
         const session = { currentRoomId: roomId.trim(), playerId, username, avatarId: selectedAvatar };
         localStorage.setItem("spyfinder_session", JSON.stringify(session));
         localStorage.setItem("spyfinder_profile", JSON.stringify({ username, avatarId: selectedAvatar }));
-        navigate(`/room/${roomId.trim()}`);
+        navigate(`/lobby/${roomId.trim()}`);
       } else {
         alert("Lỗi tham gia: " + data.error);
       }
@@ -119,9 +119,9 @@ export default function Home() {
         style={{ textAlign: "center", marginBottom: 30 }}
       >
         <h1 style={{ fontSize: 36, color: "var(--primary)", textShadow: "2px 2px 0px #FFD93D", marginBottom: 10 }}>
-          SPY FINDER 🕵️‍♂️
+          PARTY GAME 🎮
         </h1>
-        <p style={{ color: "var(--text-muted)" }}>Tìm ra kẻ gián điệp!</p>
+        <p style={{ color: "var(--text-muted)" }}>Tuyển tập các trò chơi nhóm thú vị!</p>
       </motion.div>
 
       <div style={{ width: "100%", maxWidth: 360, display: "flex", flexDirection: "column", gap: 15 }}>
