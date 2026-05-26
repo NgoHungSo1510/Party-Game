@@ -4,6 +4,7 @@ import WolfPanel from "./WolfPanel";
 import GuardPanel from "./GuardPanel";
 import WitchPanel from "./WitchPanel";
 import SeerPanel from "./SeerPanel";
+import { useGameAudio } from "../../../hooks/useGameAudio";
 
 export default function NightScreen({ roomId, playerId, roomData, isHost }) {
   const nightState = roomData.nightState || {};
@@ -13,6 +14,29 @@ export default function NightScreen({ roomId, playerId, roomData, isHost }) {
   const me = roomData.players?.[playerId] || {};
   const myRole = me.role || "villager";
   const isAlive = me.isAlive !== false;
+
+  const { playNightStep, vibrate } = useGameAudio();
+
+  // Xử lý phát âm thanh + rung mỗi khi đổi step đêm
+  // Vì NightScreen luôn render cho mọi user (dù họ đang xem BlackScreen hay Role Panel),
+  // nên âm thanh sẽ phát cho TẤT CẢ mọi người.
+  useEffect(() => {
+    // 1. Luôn phát voice + background sound cho tất cả user
+    playNightStep(currentStep);
+
+    // 2. CHỈ RUNG NẾU LÀ ROLE ĐANG ĐƯỢC GỌI VÀ CÒN SỐNG
+    if (!isAlive) return;
+    
+    if (currentStep === 1 && myRole === "wolf") {
+      vibrate([150, 100, 150]); // Rung cho sói
+    } else if (currentStep === 3 && myRole === "guard") {
+      vibrate([150, 100, 150]); // Rung cho bảo vệ
+    } else if (currentStep === 5 && myRole === "witch") {
+      vibrate([150, 100, 150]); // Rung cho phù thủy
+    } else if (currentStep === 7 && myRole === "seer") {
+      vibrate([150, 100, 150]); // Rung cho tiên tri
+    }
+  }, [currentStep, playNightStep, vibrate, myRole, isAlive]);
 
   const handleStepTimerEnd = async () => {
     if (!isHost) return;
