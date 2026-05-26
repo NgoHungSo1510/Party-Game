@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { API_BASE_URL } from "../../../utils/constants";
 import { ROLE_CARDS } from "../utils/werewolfConstants";
-import { useGameAudio } from "../../../hooks/useGameAudio";
+import { useGameAudio } from "../hooks/useGameAudio";
 
 export default function RoleReveal({ roomId, playerId, roomData, isHost }) {
   const myRole = roomData.players?.[playerId]?.role || "villager";

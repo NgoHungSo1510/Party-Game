@@ -4,7 +4,7 @@ import WolfPanel from "./WolfPanel";
 import GuardPanel from "./GuardPanel";
 import WitchPanel from "./WitchPanel";
 import SeerPanel from "./SeerPanel";
-import { useGameAudio } from "../../../hooks/useGameAudio";
+import { useGameAudio } from "../hooks/useGameAudio";
 
 export default function NightScreen({ roomId, playerId, roomData, isHost }) {
   const nightState = roomData.nightState || {};

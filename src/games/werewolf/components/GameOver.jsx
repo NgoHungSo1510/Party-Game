@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { API_BASE_URL, AVATARS } from "../../../utils/constants";
 import { ROLE_CARDS } from "../utils/werewolfConstants";
 import { Clock, Play, LogOut } from "lucide-react";
-import { useGameAudio } from "../../../hooks/useGameAudio";
+import { useGameAudio } from "../hooks/useGameAudio";
 
 export default function GameOver({ roomId, playerId, roomData, isHost }) {
   const result = roomData.gameResult || {};

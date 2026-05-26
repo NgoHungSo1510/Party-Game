@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { API_BASE_URL, AVATARS } from "../../../utils/constants";
-import { useGameAudio } from "../../../hooks/useGameAudio";
+import { useGameAudio } from "../hooks/useGameAudio";
 
 export default function VoteResult({ roomId, playerId, roomData, isHost }) {
   const players = roomData.players || {};

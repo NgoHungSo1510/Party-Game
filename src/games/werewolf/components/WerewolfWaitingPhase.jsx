@@ -2,7 +2,7 @@ import React from "react";
 import { Users, Settings, LogOut, CheckCircle, Circle, Play, X, Volume2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { AVATARS } from "../../../utils/constants";
-import { useGameAudio } from "../../../hooks/useGameAudio";
+import { useGameAudio } from "../hooks/useGameAudio";
 import "../werewolf.css";
 
 export default function WerewolfWaitingPhase({ 
