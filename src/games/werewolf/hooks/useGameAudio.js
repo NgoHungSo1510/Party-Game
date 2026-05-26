@@ -82,8 +82,7 @@ export function useGameAudio() {
     const silentHowl = new Howl({
         src: ['data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'], 
         html5: true,
-        volume: 0.01,
-        autoplay: true
+        volume: 0.01
     });
     silentHowl.play();
   }, []);
