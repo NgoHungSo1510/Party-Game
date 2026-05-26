@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { API_BASE_URL, AVATARS } from "../../../utils/constants";
 import { ROLE_CARDS } from "../utils/werewolfConstants";
 import { Clock, Play, LogOut } from "lucide-react";
+import { useGameAudio } from "../../../hooks/useGameAudio";
 
 export default function GameOver({ roomId, playerId, roomData, isHost }) {
   const result = roomData.gameResult || {};
@@ -18,8 +19,13 @@ export default function GameOver({ roomId, playerId, roomData, isHost }) {
   const totalPlayers = Object.keys(players).length;
 
   const [startedAt] = useState(() => result.startedAt || Date.now());
+  const { play, vibrate } = useGameAudio();
 
   useEffect(() => {
+    // Phát âm thanh chiến thắng khi vừa vào màn hình GameOver
+    play("victory");
+    vibrate([100, 50, 100, 50, 100, 50, 100]); // Rung pattern celebration
+    
     // Nếu kết quả không có startedAt, coi như bắt đầu ngay lúc render (local)
     // Tốt nhất backend nên thêm startedAt vào gameResult
     const calculateTimeLeft = () => {

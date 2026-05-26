@@ -1,7 +1,8 @@
 import React from "react";
-import { Users, Settings, LogOut, CheckCircle, Circle, Play, X } from "lucide-react";
+import { Users, Settings, LogOut, CheckCircle, Circle, Play, X, Volume2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { AVATARS } from "../../../utils/constants";
+import { useGameAudio } from "../../../hooks/useGameAudio";
 import "../werewolf.css";
 
 export default function WerewolfWaitingPhase({ 
@@ -9,6 +10,7 @@ export default function WerewolfWaitingPhase({
   setShowSettings, handleToggleReady, handleKick, handleLeave, handleBackToLobby, handleStartGame
 }) {
   const { meta, players } = roomData;
+  const { unlock } = useGameAudio();
   const numPlayers = Object.keys(players || {}).length;
   const allReady = Object.values(players || {}).every(p => p.isReady || p.role === "spectator");
   
@@ -84,11 +86,11 @@ export default function WerewolfWaitingPhase({
 
       <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
         {isHost && canStart ? (
-          <button className="ww-btn" style={{ height: 50, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "#FFD700", color: "#000" }} onClick={handleStartGame}>
+          <button className="ww-btn" style={{ height: 50, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: "#FFD700", color: "#000" }} onClick={() => { unlock(); handleStartGame(); }}>
             <Play size={18} /> BẮT ĐẦU VÁN CHƠI
           </button>
         ) : (
-          <button className={`ww-btn ${me?.isReady ? 'ww-btn-secondary' : ''}`} style={{ height: 50 }} onClick={handleToggleReady}>
+          <button className={`ww-btn ${me?.isReady ? 'ww-btn-secondary' : ''}`} style={{ height: 50, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }} onClick={() => { unlock(); handleToggleReady(); }}>
             {me?.isReady ? "HỦY SẴN SÀNG" : "SẴN SÀNG"}
           </button>
         )}
@@ -96,6 +98,24 @@ export default function WerewolfWaitingPhase({
         <button className="ww-btn ww-btn-wolf" style={{ height: 50, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }} onClick={handleLeave}>
           <LogOut size={18} /> Thoát phòng
         </button>
+
+        <div style={{
+          marginTop: "10px",
+          padding: "10px",
+          backgroundColor: "rgba(243, 156, 18, 0.1)",
+          border: "1px solid rgba(243, 156, 18, 0.3)",
+          borderRadius: "8px",
+          color: "#f39c12",
+          fontSize: "13px",
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px"
+        }}>
+          <Volume2 size={18} />
+          <span><b>Bật âm lượng</b> để nhận thông báo ban đêm!</span>
+        </div>
         
         {isHost && (
           <button className="ww-btn-secondary" style={{ padding: "12px", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.2)", background: "transparent", color: "var(--ww-text-muted)" }} onClick={handleBackToLobby}>

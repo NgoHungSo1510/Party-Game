@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { API_BASE_URL, AVATARS } from "../../../utils/constants";
+import { useGameAudio } from "../../../hooks/useGameAudio";
 
 export default function VoteResult({ roomId, playerId, roomData, isHost }) {
   const players = roomData.players || {};
@@ -12,8 +13,18 @@ export default function VoteResult({ roomId, playerId, roomData, isHost }) {
   const [timeLeft, setTimeLeft] = useState(5);
 
   const voteResultStartedAt = dayState.voteResultStartedAt || Date.now();
+  const { play, vibrate } = useGameAudio();
 
   useEffect(() => {
+    // Phát âm thanh khi kết quả vote hiện ra
+    if (eliminatedPlayerId !== "none") {
+      play("death");
+      vibrate([500, 200, 500]); // Rung dramatic khi có người bị treo cổ
+    } else {
+      // Có thể dùng một âm thanh khác như búa gõ nếu không ai chết (chưa có trong list, tạm dùng vote-done nếu có)
+      // Tạm thời nếu ko ai chết thì không phát gì thêm để giữ yên tĩnh
+    }
+
     const calculateTimeLeft = () => {
       const elapsed = Math.floor((Date.now() - voteResultStartedAt) / 1000);
       const remaining = Math.max(0, 5 - elapsed);

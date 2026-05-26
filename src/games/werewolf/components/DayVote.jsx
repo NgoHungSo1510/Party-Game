@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { API_BASE_URL, AVATARS } from "../../../utils/constants";
+import { useGameAudio } from "../../../hooks/useGameAudio";
 
 export default function DayVote({ roomId, playerId, roomData, isHost }) {
   const players = roomData.players || {};
@@ -11,6 +12,7 @@ export default function DayVote({ roomId, playerId, roomData, isHost }) {
   const [selectedTargetId, setSelectedTargetId] = useState(null);
   const [hasVoted, setHasVoted] = useState(!!votes[playerId]);
   const [timeLeft, setTimeLeft] = useState(60);
+  const { play, vibrate } = useGameAudio();
 
   // Lượt vote kéo dài 60s
   useEffect(() => {
@@ -66,6 +68,8 @@ export default function DayVote({ roomId, playerId, roomData, isHost }) {
         return;
       }
       setHasVoted(true);
+      play("vote-done"); // Phát âm thanh khi vote
+      vibrate([50]); // Rung nhẹ
     } catch (error) {
       alert("Lỗi khi vote treo cổ: " + error.message);
     }

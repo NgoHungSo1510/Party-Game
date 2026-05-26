@@ -1,12 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { API_BASE_URL } from "../../../utils/constants";
 import { ROLE_CARDS } from "../utils/werewolfConstants";
+import { useGameAudio } from "../../../hooks/useGameAudio";
 
 export default function RoleReveal({ roomId, playerId, roomData, isHost }) {
   const myRole = roomData.players?.[playerId]?.role || "villager";
   const roleInfo = ROLE_CARDS[myRole] || ROLE_CARDS.villager;
   const [revealed, setRevealed] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
+  const { play, vibrate } = useGameAudio();
+  const hasPlayedSoundRef = useRef(false);
 
   const [startedAt] = useState(() => roomData.meta?.roleRevealStartedAt || Date.now());
 
@@ -66,10 +69,17 @@ export default function RoleReveal({ roomId, playerId, roomData, isHost }) {
       {/* Role card với animation lật */}
       <div 
         className={`ww-role-card ${revealed ? "revealed" : ""}`} 
-        onMouseDown={() => setRevealed(true)}
+        onMouseDown={() => { 
+            setRevealed(true); 
+            if (!hasPlayedSoundRef.current) { play("vote-done"); vibrate([50]); hasPlayedSoundRef.current = true; }
+        }}
         onMouseUp={() => setRevealed(false)}
         onMouseLeave={() => setRevealed(false)}
-        onTouchStart={(e) => { e.preventDefault(); setRevealed(true); }}
+        onTouchStart={(e) => { 
+            e.preventDefault(); 
+            setRevealed(true); 
+            if (!hasPlayedSoundRef.current) { play("vote-done"); vibrate([50]); hasPlayedSoundRef.current = true; }
+        }}
         onTouchEnd={() => setRevealed(false)}
       >
         <div className="ww-role-card-inner">

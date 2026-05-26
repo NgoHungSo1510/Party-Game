@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NIGHT_STEPS } from "../utils/werewolfConstants";
+import { useGameAudio } from "../hooks/useGameAudio";
 
 export default function BlackScreen({ currentStep, stepStartedAt, roomData, isHost, onTimerEnd }) {
   const stepConfig = NIGHT_STEPS[currentStep] || NIGHT_STEPS[0];
@@ -13,6 +14,12 @@ export default function BlackScreen({ currentStep, stepStartedAt, roomData, isHo
   }
 
   const [timeLeft, setTimeLeft] = useState(duration);
+  const { playNightStep, vibrate } = useGameAudio();
+
+  useEffect(() => {
+    // Phát sound tương ứng với step hiện tại (đã giới hạn max 3s trong hook)
+    playNightStep(currentStep);
+  }, [currentStep, playNightStep]);
 
   // Tính toán countdown thực tế dựa trên timestamp để giữ đồng bộ
   useEffect(() => {
@@ -38,11 +45,9 @@ export default function BlackScreen({ currentStep, stepStartedAt, roomData, isHo
       timer = setInterval(calculateTimeLeft, 1000);
     }
 
-    // Kích hoạt haptic/vibration nếu bước này là bước đánh thức người chơi
+    // Kích hoạt haptic/vibration dự phòng
     if (stepConfig.id.includes("TURN")) {
-      if ("vibrate" in navigator) {
-        navigator.vibrate([150, 100, 150]);
-      }
+      vibrate([150, 100, 150]);
     }
 
     return () => clearInterval(timer);

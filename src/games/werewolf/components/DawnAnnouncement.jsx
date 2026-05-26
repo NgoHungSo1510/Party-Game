@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../../utils/constants";
+import { useGameAudio } from "../../../hooks/useGameAudio";
 
 export default function DawnAnnouncement({ roomId, playerId, roomData, isHost }) {
   const dayState = roomData.dayState || {};
@@ -10,8 +11,13 @@ export default function DawnAnnouncement({ roomId, playerId, roomData, isHost })
   const [timeLeft, setTimeLeft] = useState(5);
 
   const dawnStartedAt = dayState.dawnStartedAt || Date.now();
+  const { play, vibrate } = useGameAudio();
 
   useEffect(() => {
+    // Phát âm thanh bình minh
+    play("dawn");
+    vibrate([300, 100, 300, 100, 300]); // Rung mạnh hơn lúc bình minh
+    
     const calculateTimeLeft = () => {
       const elapsed = Math.floor((Date.now() - dawnStartedAt) / 1000);
       const remaining = Math.max(0, 5 - elapsed);
